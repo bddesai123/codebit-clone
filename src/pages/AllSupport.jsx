@@ -30,9 +30,9 @@ const AllSupport = () => {
   ];
 
   return (
-    <div className="p-8 min-h-screen min-w-screen">
-      <div className="bg-gradient-to-r from-yellow-600 to-pink-600 rounded-t-lg p-8">
-        <h2 className="text-white text-center text-2xl font-bold mb-2">
+    <div className=" p-4 md:p-8 min-h-screen min-w-screen">
+      <div className="bg-gradient-to-r from-yellow-600 to-pink-600 rounded-t-lg  p-4 md:p-8">
+        <h2 className="text-white text-center text-xl md:text-2xl font-bold mb-2">
           Support History
         </h2>
       </div>
@@ -40,23 +40,23 @@ const AllSupport = () => {
         <table className="min-w-full bg-gradient-to-r from-blue-900 via-black to-purple-900 text-white rounded-b-lg overflow-hidden shadow-md">
           <thead>
             <tr>
-              <th className="py-2 px-4">SR No.</th>
-              <th className="py-2 px-4">Title</th>
-              <th className="py-2 px-4">Message</th>
-              <th className="py-2 px-4">Reply</th>
-              <th className="py-2 px-4">Date</th>
-              <th className="py-2 px-4">Status</th>
+              <th className="py-2 px-2 md:px-4">SR No.</th>
+              <th className="py-2 px-2 md:px-4">Title</th>
+              <th className="py-2 px-2 md:px-4">Message</th>
+              <th className="py-2 px-2 md:px-4">Reply</th>
+              <th className="py-2 px-2 md:px-4">Date</th>
+              <th className="py-2 px-2 md:px-4">Status</th>
             </tr>
           </thead>
           <tbody>
             {supportHistory.map((entry, index) => (
               <tr key={index}>
-                <td className="py-2 text-center px-4">{entry.srNo}</td>
-                <td className="py-2 text-center px-4">{entry.title}</td>
-                <td className="py-2 text-center px-4">{entry.message}</td>
-                <td className="py-2 text-center px-4">{entry.reply}</td>
-                <td className="py-2 text-center px-4">{entry.date}</td>
-                <td className="py-2 text-center px-4">{entry.status}</td>
+                <td className="py-2 text-center px-2 md:px-4">{entry.srNo}</td>
+                <td className="py-2 text-center px-2 md:px-4">{entry.title}</td>
+                <td className="py-2 text-center px-2 md:px-4">{entry.message}</td>
+                <td className="py-2 text-center px-2 md:px-4">{entry.reply}</td>
+                <td className="py-2 text-center px-2 md:px-4">{entry.date}</td>
+                <td className="py-2 text-center px-2 md:px-4">{entry.status}</td>
               </tr>
             ))}
           </tbody>

@@ -20,9 +20,9 @@ const FlushoutTransferHistory = () => {
   return (
     <div className="min-h-screen min-w-screen">
       <h1 className="text-white text-4xl text-center pt-8">Flushout Transfer History</h1>
-      <div className="p-8">
-        <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">
-          <h2 className="text-white text-center text-2xl font-bold mb-2">
+      <div className="p-4 md:p-8">
+        <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-4 md:p-8">
+          <h2 className="text-white text-center text-xl md:text-2xl font-bold mb-2">
             Transfer History
           </h2>
         </div>
@@ -30,19 +30,19 @@ const FlushoutTransferHistory = () => {
           <table className="min-w-full bg-gradient-to-r from-blue-900 via-black to-purple-900 text-white rounded-b-lg overflow-hidden shadow-md">
             <thead>
               <tr>
-                <th className="py-2 px-4">Debit/Credit</th>
-                <th className="py-2 px-4">Amount</th>
-                <th className="py-2 px-4">Transfer to</th>
-                <th className="py-2 px-4">Date</th>
+                <th className="py-2 px-2 md:px-4">Debit/Credit</th>
+                <th className="py-2 px-2 md:px-4">Amount</th>
+                <th className="py-2 px-2 md:px-4">Transfer to</th>
+                <th className="py-2 px-2 md:px-4">Date</th>
               </tr>
             </thead>
             <tbody>
               {directIncomedata.map((entry, index) => (
                 <tr key={index}>
-                  <td className="py-2 text-center px-4">{entry.debitcredit}</td>
-                  <td className="py-2 text-center px-4">{entry.amount}</td>
-                  <td className="py-2 text-center px-4">{entry.transfer}</td>
-                  <td className="py-2 text-center px-4">{entry.date}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.debitcredit}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.amount}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.transfer}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.date}</td>
                 </tr>
               ))}
             </tbody>
@@ -51,9 +51,9 @@ const FlushoutTransferHistory = () => {
       </div>
 
       {/* fundhistory */}
-      <div className="p-8">
-        <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">
-          <h2 className="text-white text-center text-2xl font-bold mb-2">
+      <div className="p-4 md:p-8">
+        <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-4 md:p-8">
+          <h2 className="text-white text-center text-xl md:text-2xl font-bold mb-2">
             Fund History
           </h2>
         </div>
@@ -61,19 +61,19 @@ const FlushoutTransferHistory = () => {
           <table className="min-w-full bg-gradient-to-r from-blue-900 via-black to-purple-900 text-white rounded-b-lg overflow-hidden shadow-md">
             <thead>
               <tr>
-                <th className="py-2 px-4">Debit/Credit</th>
-                <th className="py-2 px-4">Amount</th>
-                <th className="py-2 px-4">Transfer to</th>
-                <th className="py-2 px-4">Date</th>
+                <th className="py-2 px-2 md:px-4">Debit/Credit</th>
+                <th className="py-2 px-2 md:px-4">Amount</th>
+                <th className="py-2 px-2 md:px-4">Transfer to</th>
+                <th className="py-2 px-2 md:px-4">Date</th>
               </tr>
             </thead>
             <tbody>
               {directIncomedata.map((entry, index) => (
                 <tr key={index}>
-                  <td className="py-2 text-center px-4">{entry.debitcredit}</td>
-                  <td className="py-2 text-center px-4">{entry.amount}</td>
-                  <td className="py-2 text-center px-4">{entry.transfer}</td>
-                  <td className="py-2 text-center px-4">{entry.date}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.debitcredit}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.amount}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.transfer}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.date}</td>
                 </tr>
               ))}
             </tbody>
@@ -82,9 +82,9 @@ const FlushoutTransferHistory = () => {
       </div>
 
       {/* Wallet History */}
-      <div className="p-8">
-        <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">
-          <h2 className="text-white text-center text-2xl font-bold mb-2">
+      <div className="p-4 md:p-8">
+        <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-4 md:p-8">
+          <h2 className="text-white text-center text-xl md:text-2xl font-bold mb-2">
             Wallet History
           </h2>
         </div>
@@ -92,19 +92,19 @@ const FlushoutTransferHistory = () => {
           <table className="min-w-full bg-gradient-to-r from-blue-900 via-black to-purple-900 text-white rounded-b-lg overflow-hidden shadow-md">
             <thead>
               <tr>
-                <th className="py-2 px-4">Debit/Credit</th>
-                <th className="py-2 px-4">Amount</th>
-                <th className="py-2 px-4">Transfer to</th>
-                <th className="py-2 px-4">Date</th>
+                <th className="py-2 px-2 md:px-4">Debit/Credit</th>
+                <th className="py-2 px-2 md:px-4">Amount</th>
+                <th className="py-2 px-2 md:px-4">Transfer to</th>
+                <th className="py-2 px-2 md:px-4">Date</th>
               </tr>
             </thead>
             <tbody>
               {directIncomedata.map((entry, index) => (
                 <tr key={index}>
-                  <td className="py-2 text-center px-4">{entry.debitcredit}</td>
-                  <td className="py-2 text-center px-4">{entry.amount}</td>
-                  <td className="py-2 text-center px-4">{entry.transfer}</td>
-                  <td className="py-2 text-center px-4">{entry.date}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.debitcredit}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.amount}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.transfer}</td>
+                  <td className="py-2 text-center px-2 md:px-4">{entry.date}</td>
                 </tr>
               ))}
             </tbody>

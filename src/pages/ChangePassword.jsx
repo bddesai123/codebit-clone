@@ -3,7 +3,7 @@ import React from "react";
 const ChangePassword = () => {
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl  p-4 md:p-6 lg:p-8">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl p-4 md:p-6 lg:p-8">
         <div className="bg-gradient-to-r from-yellow-600 to-pink-600 rounded-t-lg p-8">
           <h2 className="text-white text-center text-2xl font-bold mb-2">
             Change Password
@@ -41,7 +41,7 @@ const ChangePassword = () => {
             </div>
             <button
               type="submit"
-              className="bg-gradient-to-r from-yellow-600  to-pink-600  text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none" 
+              className="bg-gradient-to-r from-yellow-600  to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none" 
               >
               Update Password
             </button>
