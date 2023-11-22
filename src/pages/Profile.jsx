@@ -89,7 +89,7 @@ const Profile = () => {
           </div>
           <button
             type="submit"
-            className="p-4 bg-blue-500 rounded-lg text-white hover:shadow-lg hover:shadow-blue-900" 
+            className="bg-gradient-to-r from-yellow-600  to-pink-600  text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none" 
           >
             Update Profile
           </button>

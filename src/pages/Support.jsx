@@ -51,7 +51,7 @@ const Support = () => {
           </div>
           <button
             type="button"
-            className="w-full bg-blue-500  hover:shadow-blue-900 hover:bg-blue-900 text-white px-4 py-2 rounded hover:shadow-lg"
+            className="bg-gradient-to-r from-yellow-600  to-pink-600 w-full  text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none" 
           >
             Submit
           </button>

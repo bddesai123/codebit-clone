@@ -40,8 +40,8 @@ const AddFunds = () => {
         </div>
         <button
           type="button"
-          className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-900 text-white px-6 py-3 rounded-lg hover:shadow-lg transition duration-300 ease-in-out"
-        >
+          className="bg-gradient-to-r from-yellow-600  to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none" 
+          >
           Add Fund
         </button>
       </div>
