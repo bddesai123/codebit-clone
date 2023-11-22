@@ -17,44 +17,33 @@ import { FaUserAlt, FaUserCheck, FaAlignJustify } from "react-icons/fa";
 
 const Sidebars = () => {
   const [collapsed, setCollapsed] = React.useState(false);
-  const [toggled, setToggled] = React.useState(true);
+ 
 
   const handleCollapse = () => {
     console.log("Button clicked!");
     setCollapsed(!collapsed);
   };
-  const handleToggle = () => {
-    console.log("Button clicked toggled!");
-    setToggled(!toggled);
-  }
-  
+ 
+
   return (
-    <div className="flex min-h-screen text-black bg-white">
+    <div className="flex min-h-screen text-black bg-black">
       <button
-        className="lg:hidden fixed top-4 left-4 p-2 text-white"
+        className=" fixed top-4 left-4 p-2 z-999 text-white"
         onClick={handleCollapse}
       >
         <FaAlignJustify size={24} />
       </button>
       <Sidebar
-      
-       toggled={collapsed}
-
-       onToggle={handleCollapse}
-       
-
-       breakPoint="md"
-       backgroundColor="#ffffff"
-        
+        toggled={collapsed}
+        onToggle={handleCollapse}
+        breakPoint="md"
+        backgroundColor="#ffffff"
       >
         <div className="flex justify-center font-semibold items-center">
-        
-        Dashboard
-      
-        
+          Dashboard
         </div>
-       
-        <Menu  >
+
+        <Menu>
           <MenuItem icon={<FaHouse />} component={<Link to="/dashboard" />}>
             HOME
           </MenuItem>

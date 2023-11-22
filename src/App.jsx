@@ -26,14 +26,15 @@ import WithdrawHistory from "./pages/WithdrawHistory";
 import Support from "./pages/Support";
 import AllSupport from "./pages/AllSupport";
 import Login from "./pages/Login";
-
+import copy from "copy-to-clipboard";
 function App() {
-  const referralLinkRef = useRef(null);
+  const referralLinkRef = useRef();
 
   const copyToClipboard = () => {
-    if (referralLinkRef.current) {
-      referralLinkRef.current.select();
-      document.execCommand("copy");
+    let copyText = referralLinkRef.current.value;
+    let isCopy = copy(copyText);
+    if (isCopy) {
+      alert("Copied the text: " + copyText);
     }
   };
   const { user } = useAuth();
