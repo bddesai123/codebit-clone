@@ -18,7 +18,7 @@ const FlushoutTransferHistory = () => {
     // Add more data as needed
   ];
   return (
-    <div className="">
+    <div className="min-h-screen min-w-screen">
       <h1 className="text-white text-4xl text-center pt-8">Flushout Transfer History</h1>
       <div className="p-8">
         <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">

@@ -36,9 +36,10 @@ const Login = () => {
         if (chainId !== "0x1") {
           setError("Please switch to the Ethereum Mainnet to login.");
         } else {
-          setError(""); // Clear any previous error
-          login(userAddress); // Call login function
-          navigate("/dashboard");
+          setError(""); 
+          await login(userAddress); 
+          alert("User login successful!");
+          await navigate("/dashboard");
         }
       } else {
         setError("Please install MetaMask");
@@ -49,9 +50,9 @@ const Login = () => {
   };
 
   return (
-    <div className="text-white h-screen flex items-center justify-center">
-      <div className="w-full max-w-3xl">
-        <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">
+    <div className="text-white min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl  p-4 md:p-6 lg:p-8">
+        <div className="bg-gradient-to-r from-yellow-600 to-pink-600 rounded-t-lg p-8">
           <h2 className="text-center text-white text-2xl font-bold mb-2">
             Login
           </h2>
@@ -59,8 +60,8 @@ const Login = () => {
         <div className="bg-gradient-to-r from-blue-900 via-black to-purple-900 p-6 rounded-b-lg shadow-md">
           <div className="mb-4">
             <label
-              htmlFor="totalfund"
-              className="block text-sm text-white mb-2"
+              htmlFor="walletAddress"
+              className="block text-xl font-semibold text-center text-white mb-2"
             >
               Wallet Address
             </label>
@@ -78,7 +79,7 @@ const Login = () => {
           <button
             type="button"
             onClick={handleLogin}
-            className="bg-gradient-to-r from-yellow-600  to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
+            className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
           >
             Login
           </button>

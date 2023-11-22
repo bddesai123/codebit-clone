@@ -7,7 +7,7 @@ const MyDirectTeam = () => {
         // Add more user data as needed
       ];
   return (
-    <div className='text-white h-screen'>
+    <div className='text-white min-h-screen min-w-screen'>
       
       
     

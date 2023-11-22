@@ -19,7 +19,7 @@ const TopUpHistory = () => {
       ];
   return (
     <div>
-      <div className="p-8 h-screen">
+      <div className="p-8 mini-w-screen min-h-screen">
         <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">
           <h2 className="text-white text-center text-2xl font-bold mb-2">
             Top-Up History

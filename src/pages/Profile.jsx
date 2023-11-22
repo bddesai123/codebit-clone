@@ -21,8 +21,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex items-center  justify-center h-screen">
-      <div className="bg-gradient-to-r from-blue-900 via-black to-purple-900 rounded-lg shadow-lg hover:shadow-2xl max-w-3xl w-full">
+    <div className="flex items-center  justify-center min-h-screen">
+      <div className="bg-gradient-to-r from-blue-900 via-black to-purple-900 rounded-lg shadow-lg hover:shadow-2xl w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl  ">
         <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">
           <h2 className=" text-center text-white text-2xl font-bold mb-2">Profile</h2>
         

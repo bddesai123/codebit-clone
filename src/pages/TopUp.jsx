@@ -2,8 +2,8 @@ import React from "react";
 
 const TopUp = () => {
   return (
-    <div className="text-white h-screen flex items-center justify-center">
-      <div className="w-full max-w-3xl">
+    <div className="text-white min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl  p-4 md:p-6 lg:p-8">
         <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">
           <h2 className=" text-center text-white text-2xl font-bold mb-2">
             Top-Up{" "}

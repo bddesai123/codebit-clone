@@ -39,7 +39,7 @@ function App() {
   };
   const { user } = useAuth();
   return (
-    <div className="flex min-h-screen bg-gradient-to-r from-gray-900 to-slate-600">
+    <div className="flex min-h-screen min-w-screen bg-gradient-to-r from-gray-900 to-slate-600">
       <Sidebars />
 
       <div className="flex-grow">

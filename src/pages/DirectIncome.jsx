@@ -10,7 +10,7 @@ const DirectIncome = () => {
   ];
 
   return (
-    <div className="h-screen p-8">
+    <div className="min-h-screen p-8">
       <div className="bg-gradient-to-r from-yellow-600  to-pink-600 rounded-t-lg p-8">
         <h2 className="text-white text-center text-2xl font-bold mb-2">
           My Direct Income
