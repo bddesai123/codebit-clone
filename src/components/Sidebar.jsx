@@ -137,7 +137,7 @@ const Sidebars = () => {
             </MenuItem>
           </SubMenu>
           <MenuItem
-            component={<Link to="/login" />}
+            component={<Link to="/home" />}
             icon={<FaRegCircleRight />}
           >
             LOGOUT

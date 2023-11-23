@@ -37,33 +37,39 @@ function App() {
       alert("Copied the text: " + copyText);
     }
   };
+
+  const excludeSidebarRoutes = ["/", "/home", "/login"];
+
   const { user } = useAuth();
   return (
     <div className="flex min-h-screen min-w-screen bg-gradient-to-r from-gray-900 to-slate-600">
-      <Sidebars />
+      {!excludeSidebarRoutes.includes(window.location.pathname) && <Sidebars />}
 
       <div className="flex-grow flex flex-col">
-        <div className="text-center flex flex-col md:flex-row justify-center items-center text-black text-xl p-2 rounded-t-lg">
-          <label className="pr-0 md:pr-5 mb-2 md:mb-0 text-white font-semibold">
-            Referral Link:
-          </label>
-          <input
-            type="text"
-            value="https://metabitclub.com/register?refid=586939"
-            className="input input-bordered w-full md:max-w-xl max-w-sm rounded-l-lg p-4 mb-2 md:mb-0"
-            disabled
-            ref={referralLinkRef}
-          />
-          <button
-            className="p-4 bg-gradient-to-r from-yellow-600 to-pink-600 rounded-r-lg text-white transform hover:translate-y-[-5px] hover:text-black hover:shadow-lg hover:shadow-pink-900"
-            onClick={copyToClipboard}
-          >
-            <span className="flex"> Copy </span>
-          </button>
-        </div>
+        {!excludeSidebarRoutes.includes(window.location.pathname) && (
+          <div className="text-center flex flex-col md:flex-row justify-center items-center text-black text-xl p-2 rounded-t-lg">
+            <label className="pr-0 md:pr-5 mb-2 md:mb-0 text-white font-semibold">
+              Referral Link:
+            </label>
+            <input
+              type="text"
+              value="https://metabitclub.com/register?refid=586939"
+              className="input input-bordered w-full md:max-w-xl max-w-sm rounded-l-lg p-4 mb-2 md:mb-0"
+              disabled
+              ref={referralLinkRef}
+            />
+            <button
+              className="p-4 bg-gradient-to-r from-yellow-600 to-pink-600 rounded-r-lg text-white transform hover:translate-y-[-5px] hover:text-black hover:shadow-lg hover:shadow-pink-900"
+              onClick={copyToClipboard}
+            >
+              <span className="flex"> Copy </span>
+            </button>
+          </div>
+        )}
 
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route
             path="/login"
             element={user ? <Navigate to="/dashboard" /> : <Login />}
@@ -165,7 +171,7 @@ function App() {
             }
           />
         </Routes>
-        <Footer />
+        {!excludeSidebarRoutes.includes(window.location.pathname) && <Footer />}
       </div>
     </div>
   );
