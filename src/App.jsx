@@ -15,9 +15,8 @@ import AutoPoolIncome from "./pages/AutoPoolIncome";
 import NonWorkingInocme from "./pages/NonWorkingInocme";
 import WorkingIncome from "./pages/WorkingIncome";
 import FlushOutIncome from "./pages/FlushOutIncome";
-import FlushoutTransfer from "./pages/FlushoutTransfer";
-import FlushoutTransferHistory from "./pages/FlushoutTransferHistory";
-import TopUp from "./pages/TopUp";
+
+import Deposit from "./pages/Deposit";
 import TopUpHistory from "./pages/TopUpHistory";
 import AddFunds from "./pages/AddFunds";
 import FundHistory from "./pages/FundHistory";
@@ -119,19 +118,10 @@ function App() {
             path="/flushoutincome"
             element={user ? <FlushOutIncome /> : <Navigate to="/login" />}
           />
+         
           <Route
-            path="/flushouttransfer"
-            element={user ? <FlushoutTransfer /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/flushouttransferhistory"
-            element={
-              user ? <FlushoutTransferHistory /> : <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="/topup"
-            element={user ? <TopUp /> : <Navigate to="/login" />}
+            path="/deposit"
+            element={user ? <Deposit /> : <Navigate to="/login" />}
           />
           <Route
             path="/topuphistory"

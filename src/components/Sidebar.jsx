@@ -4,7 +4,6 @@ import {
   FaHouse,
   FaUsers,
   FaBusinessTime,
-  FaDollarSign,
   FaMoneyBill,
   FaMoneyBill1Wave,
   FaMoneyCheck,
@@ -17,33 +16,33 @@ import { FaUserAlt, FaUserCheck, FaAlignJustify } from "react-icons/fa";
 
 const Sidebars = () => {
   const [collapsed, setCollapsed] = React.useState(false);
- 
 
   const handleCollapse = () => {
     console.log("Button clicked!");
     setCollapsed(!collapsed);
+    
   };
- 
 
   return (
-    <div className="flex min-h-screen text-black bg-black">
-      <button
-        className=" fixed top-4 left-4 p-2 z-999 text-white"
-        onClick={handleCollapse}
-      >
-        <FaAlignJustify size={24} />
-      </button>
+    <div className="flex min-h-screen  bg-black">
+      
       <Sidebar
         toggled={collapsed}
         onToggle={handleCollapse}
         breakPoint="md"
         backgroundColor="#ffffff"
       >
-        <div className="flex justify-center font-semibold items-center">
+        <div className="flex flex-row justify-center font-semibold items-center">
           Dashboard
+          <button
+            className=" fixed top-4 left-4 p-2 text-black"
+            onClick={handleCollapse}
+          >
+            <FaAlignJustify size={24} />
+          </button>
         </div>
 
-        <Menu>
+        <Menu className="text-black">
           <MenuItem icon={<FaHouse />} component={<Link to="/dashboard" />}>
             HOME
           </MenuItem>
@@ -73,50 +72,82 @@ const Sidebars = () => {
             </MenuItem>
           </SubMenu>
           <SubMenu label="MY BUSINESS" icon={<FaBusinessTime />}>
-            <MenuItem component={<Link to="/directincome" />}>
+            <MenuItem
+              icon={<FaBusinessTime />}
+              component={<Link to="/directincome" />}
+            >
               DIRECT INCOME
             </MenuItem>
-            <MenuItem component={<Link to="/levelincome" />}>
+            <MenuItem
+              icon={<FaBusinessTime />}
+              component={<Link to="/levelincome" />}
+            >
               LEVEL INCOME
             </MenuItem>
-            <MenuItem component={<Link to="/autopoolincome" />}>
+            <MenuItem
+              icon={<FaBusinessTime />}
+              component={<Link to="/autopoolincome" />}
+            >
               AUTO POOL INCOME
             </MenuItem>
-            <MenuItem component={<Link to="/workingincome" />}>
+            <MenuItem
+              icon={<FaBusinessTime />}
+              component={<Link to="/workingincome" />}
+            >
               WORKING INCOME
             </MenuItem>
-            <MenuItem component={<Link to="/nonworkingincome" />}>
+            <MenuItem
+              icon={<FaBusinessTime />}
+              component={<Link to="/nonworkingincome" />}
+            >
               NON WORKING INCOME
             </MenuItem>
-            <MenuItem component={<Link to="/flushoutincome" />}>
+            <MenuItem
+              icon={<FaBusinessTime />}
+              component={<Link to="/flushoutincome" />}
+            >
               FLUSHOUT INCOME
             </MenuItem>
           </SubMenu>
-          <SubMenu label="FLUSHOUT TRANSFER" icon={<FaDollarSign />}>
-            <MenuItem component={<Link to="/flushouttransfer" />}>
-              TRANSFER
+
+          <SubMenu label="DEPOSIT" icon={<FaMoneyBill />}>
+            <MenuItem icon={<FaMoneyBill />} component={<Link to="/deposit" />}>
+              DEPOSIT
             </MenuItem>
-            <MenuItem component={<Link to="/flushouttransferhistory" />}>
-              TRANSFER HISTORY
-            </MenuItem>
-          </SubMenu>
-          <SubMenu label="TOP-UP" icon={<FaMoneyBill />}>
-            <MenuItem component={<Link to="/topup" />}>TOP-UP</MenuItem>
-            <MenuItem component={<Link to="/topuphistory" />}>
-              TOP-UP HISTORY
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/topuphistory" />}
+            >
+              DEPOSIT HISTORY
             </MenuItem>
           </SubMenu>
           <SubMenu label="FUNDS" icon={<FaMoneyBill1Wave />}>
-            <MenuItem component={<Link to="/addfunds" />}>ADD FUND</MenuItem>
-            <MenuItem component={<Link to="/fundhistory" />}>
+            <MenuItem
+              icon={<FaMoneyBill1Wave />}
+              component={<Link to="/addfunds" />}
+            >
+              ADD FUND
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill1Wave />}
+              component={<Link to="/fundhistory" />}
+            >
               FUND HISTORY
             </MenuItem>
           </SubMenu>
           <SubMenu label="WITHDRAW" icon={<FaMoneyCheck />}>
-            <MenuItem component={<Link to="/withdraw" />} href="/">
+            <MenuItem
+              icon={<FaMoneyCheck />}
+              component={<Link to="/withdraw" />}
+              href="/"
+            >
               WITHDRAW
             </MenuItem>
-            <MenuItem component={<Link to="/withdrawhistory" />} href="/">
+            <MenuItem
+              icon={<FaMoneyCheck />}
+              component={<Link to="/withdrawhistory" />}
+              href="/"
+            >
               WITHDRAW HISTORY
             </MenuItem>
           </SubMenu>
@@ -136,10 +167,7 @@ const Sidebars = () => {
               ALL SUPPORT
             </MenuItem>
           </SubMenu>
-          <MenuItem
-            component={<Link to="/home" />}
-            icon={<FaRegCircleRight />}
-          >
+          <MenuItem component={<Link to="/home" />} icon={<FaRegCircleRight />}>
             LOGOUT
           </MenuItem>
         </Menu>
