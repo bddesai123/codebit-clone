@@ -1,7 +1,7 @@
 import AboutUs from "../components/AboutUs";
 import Navbar from "../components/Navbar";
 import NewsLetter from "../components/NewsLetter";
-
+import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div className="font-Poppins " id="container">
@@ -27,12 +27,13 @@ const Home = () => {
               secure, and efficient way.
             </p>
             <div className="flex justify-center">
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="flex gap-3 shadow-xl hover:shadow-2xl hover:shadow-pink-900 cursor-pointer text-white font-semibold bg-gradient-to-r from-yellow-600  to-pink-600 px-7 py-3 rounded-lg hover:rounded-full hover:transition hover:duration-300 hover:scale-105 duration-500  hover:from-pink-600 hover:to-yellow-600"
               >
                 Register
-              </a>
+              </Link>
+              
             </div>
           </div>
         </div>
