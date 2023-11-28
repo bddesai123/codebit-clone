@@ -14,8 +14,10 @@ import {
 import { Link } from "react-router-dom";
 import { FaUserAlt, FaUserCheck, FaAlignJustify } from "react-icons/fa";
 
+
 const Sidebars = () => {
   const [collapsed, setCollapsed] = React.useState(false);
+  const [active, setActive] = React.useState(false);
 
   const handleCollapse = () => {
     console.log("Button clicked!");
@@ -23,6 +25,16 @@ const Sidebars = () => {
     
   };
 
+  const handleActive = () => {
+    console.log("Button clicked!");
+    setActive(!active);
+  }
+ 
+  const logout = async() =>{
+    localStorage.removeItem("token");
+    window.location.reload();
+  }
+  
   return (
     <div className="flex min-h-screen  bg-black">
       
@@ -30,20 +42,23 @@ const Sidebars = () => {
         toggled={collapsed}
         onToggle={handleCollapse}
         breakPoint="md"
+       collapsed={active}
+       onCollapsed={handleActive}
+        
         backgroundColor="#ffffff"
       >
         <div className="flex flex-row justify-center font-semibold items-center">
           Dashboard
           <button
-            className=" fixed top-4 left-4 p-2 text-black"
-            onClick={handleCollapse}
+            className=" fixed top-4 left-4 p-2 text-white"
+           onClick={handleCollapse}
           >
             <FaAlignJustify size={24} />
           </button>
         </div>
 
         <Menu className="text-black">
-          <MenuItem icon={<FaHouse />} component={<Link to="/dashboard" />}>
+          <MenuItem icon={<FaHouse />}  onClick={handleActive} component={<Link to="/dashboard" />}>
             HOME
           </MenuItem>
           <SubMenu label="PROFILE" icon={<FaUserAlt />}>
@@ -167,7 +182,7 @@ const Sidebars = () => {
               ALL SUPPORT
             </MenuItem>
           </SubMenu>
-          <MenuItem component={<Link to="/home" />} icon={<FaRegCircleRight />}>
+          <MenuItem onClick={logout} icon={<FaRegCircleRight />}>
             LOGOUT
           </MenuItem>
         </Menu>
