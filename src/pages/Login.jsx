@@ -79,14 +79,20 @@ const Login = () => {
 
   const handleRegister = async () => {
     const userAddress = await handleMetaMaskTasks();
-
+  
+    // Check if refid is provided
+    if (!refid) {
+      alert("Referral ID is required for registration.");
+      return;
+    }
+  
     if (userAddress) {
       // Perform registration logic
       const registerResponse = await fetch(
         `https://forline.live/api/register.php?address=${userAddress}&refid=${refid}`
       );
       const responseData = await registerResponse.json();
-
+  
       if (
         Array.isArray(responseData) &&
         responseData.includes("Message:This Address Is Already Register") &&
@@ -100,6 +106,7 @@ const Login = () => {
       }
     }
   };
+  
 
   return (
     <div className="text-white min-h-screen flex items-center justify-center">
