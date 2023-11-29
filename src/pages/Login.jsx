@@ -8,9 +8,7 @@ const Login = () => {
   const { user, login } = useAuth();
   const [error, setError] = useState("");
   const [refid, setRefid] = useState("");
-
-  const { walletAddress: contextWalletAddress, updateWalletAddress } =
-    useWallet();
+  const { walletAddress: contextWalletAddress, updateWalletAddress } = useWallet();
 
   useEffect(() => {
     // Redirect to dashboard if the user is already logged in
@@ -19,7 +17,7 @@ const Login = () => {
     }
   }, [user, navigate]);
 
-  const handleLogin = async () => {
+  const handleMetaMaskTasks = async () => {
     try {
       // Check if MetaMask is installed
       if (window.ethereum) {
@@ -38,91 +36,71 @@ const Login = () => {
 
         // Compare the chain ID with the expected chain ID for Ethereum mainnet (0x1)
         if (chainId !== "0x1") {
-          setError("Please switch to the Ethereum Mainnet to login.");
-        } else {
-          setError("");
-          // Perform login logic
-          const loginResponse = await fetch(
-            `https://forline.live/api/login.php?address=${userAddress}`
-          );
-          const responseData = await loginResponse.json();
-
-          // Check if login was successful
-          if (
-            Array.isArray(responseData) &&
-            responseData.includes("Message:Successfully Login") &&
-            responseData.includes("Status:200")
-          ) {
-            // Display alert with the message from the backend
-            alert(responseData[0]);
-            // Proceed with further actions after successful login
-            await login(userAddress);
-            alert("User login successful!");
-            await navigate("/dashboard");
-          } else {
-            // Display alert with the message from the backend for login failure
-            alert(responseData[0]);
-          }
+          setError("Please switch to the Ethereum Mainnet.");
+          return null;
         }
+
+        setError("");
+        return userAddress;
       } else {
         setError("Please install MetaMask");
+        return null;
       }
     } catch (error) {
-      console.error("Error during login:", error.message);
+      console.error("Error during MetaMask tasks:", error.message);
+      return null;
+    }
+  };
+
+  const handleLogin = async () => {
+    const userAddress = await handleMetaMaskTasks();
+
+    if (userAddress) {
+      // Perform login logic
+      const loginResponse = await fetch(
+        `https://forline.live/api/login.php?address=${userAddress}`
+      );
+      const responseData = await loginResponse.json();
+
+      if (
+        Array.isArray(responseData) &&
+        responseData.includes("Message:Successfully Login") &&
+        responseData.includes("Status:200")
+      ) {
+        alert(responseData[0]);
+        await login(userAddress);
+        alert("User login successful!");
+        navigate("/dashboard");
+      } else {
+        alert(responseData[0]);
+      }
     }
   };
 
   const handleRegister = async () => {
-    try {
-      // Check if MetaMask is installed
-      if (window.ethereum) {
-        // Request accounts from the user
-        const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
+    const userAddress = await handleMetaMaskTasks();
 
-        const userAddress = accounts[0];
-        updateWalletAddress(userAddress);
+    if (userAddress) {
+      // Perform registration logic
+      const registerResponse = await fetch(
+        `https://forline.live/api/register.php?address=${userAddress}&refid=${refid}`
+      );
+      const responseData = await registerResponse.json();
 
-        // Get the current chain ID
-        const chainId = await window.ethereum.request({
-          method: "eth_chainId",
-        });
-
-        // Compare the chain ID with the expected chain ID for Ethereum mainnet (0x1)
-        if (chainId !== "0x1") {
-          setError("Please switch to the Ethereum Mainnet to register.");
-        } else {
-          setError("");
-          // Perform registration logic
-          const registerResponse = await fetch(
-            `https://forline.live/api/register.php?address=${userAddress}&refid=${refid}`
-          );
-          const responseData = await registerResponse.json();
-
-          // Check if registration was successful
-          if (
-            Array.isArray(responseData) &&
-            responseData.includes("Message:This Address Is Already Register") &&
-            responseData.includes("Status:400")
-          ) {
-            // Display alert with the message from the backend
-            alert(responseData[0]);
-          } else {
-            // Registration successful, proceed with login logic
-            await login(userAddress);
-            alert("User registered and logged in!");
-            await navigate("/dashboard");
-          }
-        }
+      if (
+        Array.isArray(responseData) &&
+        responseData.includes("Message:This Address Is Already Register") &&
+        responseData.includes("Status:400")
+      ) {
+        alert(responseData[0]);
       } else {
-        setError("Please install MetaMask");
+        await login(userAddress);
+        alert("User registered and logged in!");
+        navigate("/dashboard");
       }
-    } catch (error) {
-      console.error("Error during registration:", error.message);
     }
   };
-  
+
   return (
     <div className="text-white min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl p-4 md:p-6 lg:p-8">
