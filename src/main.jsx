@@ -3,11 +3,15 @@ import App from "./App.jsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./components/Auth.jsx";
+import { WalletProvider } from "./components/WalletContext.jsx";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
-      <App />
+      <WalletProvider>
+        <App />
+      </WalletProvider>
     </AuthProvider>
   </BrowserRouter>
 );

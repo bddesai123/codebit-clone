@@ -15,7 +15,6 @@ import AutoPoolIncome from "./pages/AutoPoolIncome";
 import NonWorkingInocme from "./pages/NonWorkingInocme";
 import WorkingIncome from "./pages/WorkingIncome";
 import FlushOutIncome from "./pages/FlushOutIncome";
-
 import Deposit from "./pages/Deposit";
 import TopUpHistory from "./pages/TopUpHistory";
 import AddFunds from "./pages/AddFunds";
@@ -26,8 +25,12 @@ import Support from "./pages/Support";
 import AllSupport from "./pages/AllSupport";
 import Login from "./pages/Login";
 import copy from "copy-to-clipboard";
+import { useWallet } from "./components/WalletContext";
+
 function App() {
   const referralLinkRef = useRef();
+  const { walletAddress } = useWallet(); // Destructure walletAddress from useWallet
+  const walletAddressString = typeof walletAddress === "string" ? walletAddress : "";
 
   const copyToClipboard = () => {
     let copyText = referralLinkRef.current.value;
@@ -52,13 +55,13 @@ function App() {
             </label>
             <input
               type="text"
-              value="https://metabitclub.com/register?refid=586939"
+              value={`https://metabitclub.com/register?refid=${walletAddressString}`}
               className="input input-bordered w-full md:max-w-xl max-w-sm rounded-l-lg p-4 mb-2 md:mb-0"
               disabled
               ref={referralLinkRef}
             />
             <button
-              className="p-4 bg-gradient-to-r from-yellow-600 to-pink-600 rounded-r-lg text-white transform hover:translate-y-[-5px] hover:text-black hover:shadow-lg hover:shadow-pink-900"
+              className="p-4 bg-gradient-to-r from-yellow-600 to-pink-600 rounded-lg md:rounded-r-lg text-white transform hover:translate-y-[-5px] hover:text-black hover:shadow-lg hover:shadow-pink-900"
               onClick={copyToClipboard}
             >
               <span className="flex"> Copy </span>
