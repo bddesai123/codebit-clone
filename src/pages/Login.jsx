@@ -11,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [refid, setRefid] = useState("");
   const [loading, setLoading] = useState(false);
+  const [registrationStatus, setRegistrationStatus] = useState(null);
 
   useEffect(() => {
     // Redirect to dashboard if the user is already logged in
@@ -74,6 +75,8 @@ const Login = () => {
         const response = await fetch(url);
         const responseData = await response.json();
 
+        setRegistrationStatus(responseData);
+
         if (
           Array.isArray(responseData) &&
           responseData.includes("Message:Successlly Login") &&
@@ -86,6 +89,27 @@ const Login = () => {
         } else {
           toast.error(responseData[0]);
         }
+      }
+    } catch (error) {
+      toast.error(`Error during operation: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleConnect = async () => {
+    try {
+      const userAddress = await handleMetaMaskTasks();
+
+      if (userAddress) {
+        setLoading(true);
+
+        const response = await fetch(
+          `https://forline.live/api/check-register.php?address=${userAddress}`
+        );
+        const responseData = await response.json();
+
+        setRegistrationStatus(responseData);
       }
     } catch (error) {
       toast.error(`Error during operation: ${error.message}`);
@@ -131,24 +155,35 @@ const Login = () => {
             />
           </div>
 
-          <div className="flex md:flex-row flex-col gap-4">
+          {registrationStatus &&
+            (registrationStatus.includes("Message:This Address Is Not Registered") &&
+            registrationStatus.includes("Status:400") ? (
+              <button
+                type="button"
+                onClick={handleRegister}
+                className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
+              >
+                {loading ? "Registering..." : "Register"}
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleLogin}
+                className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            ))}
+
+          {!registrationStatus && (
             <button
               type="button"
-              onClick={handleLogin}
-              disabled={loading}
+              onClick={handleConnect}
               className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? "Connecting..." : "Connect"}
             </button>
-            <button
-              type="button"
-              onClick={handleRegister}
-              disabled={loading}
-              className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
-            >
-              {loading ? "Registering..." : "Register"}
-            </button>
-          </div>
+          )}
 
           {error && <div className="text-red-500 mt-2 text-sm">{error}</div>}
         </div>

@@ -1,44 +1,86 @@
-
-import Cards from '../components/Cards';
-import ButtonCard from '../components/ButtonCard';
-import UserTable from '../components/UserTable';
-import RebirthTable from '../components/RebirthTable';
+import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { useWallet } from "../components/WalletContext";
+import Cards from "../components/Cards";
+import ButtonCard from "../components/ButtonCard";
+import UserTable from "../components/UserTable";
+import RebirthTable from "../components/RebirthTable";
 
 const DashBoard = () => {
-  const smcards = [
-    {
-      title: "Staking Bonus",
-      desc: "$500.00",
-    },
-    {
-      title: "Leadership Bonus",
-      desc: "$500.00",
-    },
-    {
-      title: "Reward Bonus",
-      desc: "$500.00",
-    },
+  const { walletAddress } = useWallet();
+  const walletAddressString =
+    typeof walletAddress === "string" ? walletAddress : "";
+  const [smcards, setSmCards] = useState([
     {
       title: "Total Staked",
-      desc: "$500.00",
+      desc: "",
+      apiEndpoint: `https://forline.live/api/direct_team.php?total=${walletAddressString}`,
+      dataKey: "totalincome",
     },
     {
-      title: "Affiliate Bonus",
-      desc: "$100.00",
+      title: "Pool Income",
+      desc: "",
+      apiEndpoint: `https://forline.live/api/direct_team.php?poolincome=${walletAddressString}`,
+      dataKey: "poolincome",
     },
     {
-      title: "Team Bonus",
-      desc: "$100.00",
+      title: "Total Direct Bonus",
+      desc: "",
+      apiEndpoint: `https://forline.live/api/direct_team.php?totaldir=${walletAddressString}`,
+      dataKey: "totalteam",
     },
     {
-      title: "Total Income",
-      desc: "$500.00",
+      title: "Total Level",
+      desc: "",
+      apiEndpoint: `https://forline.live/api/direct_team.php?totallevel=${walletAddressString}`,
+      dataKey: "levelteam",
     },
-    {
-      title: "Wallet",
-      desc: "$15000.00",
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const updatedCards = await Promise.all(
+          smcards.map(async (card) => {
+            const response = await fetch(card.apiEndpoint);
+            const data = await response.text();
+
+           
+
+            // Attempt to parse the JSON string
+            let parsedData;
+            try {
+              parsedData = JSON.parse(data);
+            } catch (parseError) {
+              toast.error(
+                `Error parsing JSON for ${card.title}:`,
+                parseError
+              );
+              parsedData = {};
+            }
+
+            const descValue = parsedData[card.dataKey];
+            if (descValue === undefined) {
+              toast.warn(`Unexpected data structure for ${card.title}.`);
+            }
+
+            // Convert the descValue to a string
+            const desc = String(descValue || "No data available");
+            return {
+              ...card,
+              desc,
+            };
+          })
+        );
+
+        setSmCards(updatedCards);
+      } catch (error) {
+        toast.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const buttons = [
     { text: "Buy S6 1st package (10$)" },
@@ -53,9 +95,7 @@ const DashBoard = () => {
   ];
 
   return (
-    <div className='min-h-screen'>
-  
-
+    <div className="min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-5">
         {smcards.map((card, index) => (
           <Cards key={index} title={card.title} desc={card.desc} />
@@ -63,7 +103,9 @@ const DashBoard = () => {
       </div>
 
       <div>
-        <h1 className='text-3xl text-white underline my-4 pl-8'>Pool Packages</h1>
+        <h1 className="text-3xl text-white underline my-4 pl-8">
+          Pool Packages
+        </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-5">
           {buttons.map((button, index) => (
@@ -73,12 +115,14 @@ const DashBoard = () => {
       </div>
 
       <div>
-        <h1 className='text-3xl text-white underline my-4 pl-8'>Rebirth Table</h1>
+        <h1 className="text-3xl text-white underline my-4 pl-8">
+          Rebirth Table
+        </h1>
         <RebirthTable />
       </div>
 
       <div>
-        <h1 className='text-3xl text-white underline pl-8 my-4'>User Table</h1>
+        <h1 className="text-3xl text-white underline pl-8 my-4">User Table</h1>
         <UserTable />
       </div>
     </div>

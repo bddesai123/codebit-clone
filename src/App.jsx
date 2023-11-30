@@ -30,7 +30,7 @@ import toast from "react-hot-toast"
 
 function App() {
   const referralLinkRef = useRef();
-  const { walletAddress } = useWallet(); // Destructure walletAddress from useWallet
+  const { walletAddress } = useWallet(); 
   const walletAddressString = typeof walletAddress === "string" ? walletAddress : "";
 
   const copyToClipboard = () => {
