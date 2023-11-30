@@ -5,16 +5,16 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import Sidebars from "./components/Sidebar";
 import DashBoard from "./pages/DashBoard";
-import Profile from "./pages/Profile";
-import ChangePassword from "./pages/ChangePassword";
+// import Profile from "./pages/Profile";
+// import ChangePassword from "./pages/ChangePassword";
 import MyDirectTeam from "./pages/MyDirectTeam";
 import MyLevelTeam from "./pages/MyLevelTeam";
-import DirectIncome from "./pages/DirectIncome";
-import LevelIncome from "./pages/LevelIncome";
-import AutoPoolIncome from "./pages/AutoPoolIncome";
-import NonWorkingInocme from "./pages/NonWorkingInocme";
-import WorkingIncome from "./pages/WorkingIncome";
-import FlushOutIncome from "./pages/FlushOutIncome";
+// import DirectIncome from "./pages/DirectIncome";
+// import LevelIncome from "./pages/LevelIncome";
+// import AutoPoolIncome from "./pages/AutoPoolIncome";
+// import NonWorkingInocme from "./pages/NonWorkingInocme";
+// import WorkingIncome from "./pages/WorkingIncome";
+// import FlushOutIncome from "./pages/FlushOutIncome";
 import Deposit from "./pages/Deposit";
 import TopUpHistory from "./pages/TopUpHistory";
 import AddFunds from "./pages/AddFunds";
@@ -26,6 +26,7 @@ import AllSupport from "./pages/AllSupport";
 import Login from "./pages/Login";
 import copy from "copy-to-clipboard";
 import { useWallet } from "./components/WalletContext";
+import toast from "react-hot-toast"
 
 function App() {
   const referralLinkRef = useRef();
@@ -36,7 +37,7 @@ function App() {
     let copyText = referralLinkRef.current.value;
     let isCopy = copy(copyText);
     if (isCopy) {
-      alert("Copied the text: " + copyText);
+      toast.success("Text Copied" );
     }
   };
 
@@ -81,14 +82,14 @@ function App() {
             element={user ? <DashBoard /> : <Navigate to="/login" />}
           />
           {/* protected routes */}
-          <Route
+          {/* <Route
             path="/profile"
             element={user ? <Profile /> : <Navigate to="/login" />}
           />
           <Route
             path="/changepassword"
             element={user ? <ChangePassword /> : <Navigate to="/login" />}
-          />
+          /> */}
           <Route
             path="/mydirectteam"
             element={user ? <MyDirectTeam /> : <Navigate to="/login" />}
@@ -97,7 +98,7 @@ function App() {
             path="/mylevelteam"
             element={user ? <MyLevelTeam /> : <Navigate to="/login" />}
           />
-          <Route
+          {/* <Route
             path="/directincome"
             element={user ? <DirectIncome /> : <Navigate to="/login" />}
           />
@@ -120,7 +121,7 @@ function App() {
           <Route
             path="/flushoutincome"
             element={user ? <FlushOutIncome /> : <Navigate to="/login" />}
-          />
+          /> */}
          
           <Route
             path="/deposit"

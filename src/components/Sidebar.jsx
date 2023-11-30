@@ -3,7 +3,7 @@ import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
 import {
   FaHouse,
   FaUsers,
-  FaBusinessTime,
+ 
   FaMoneyBill,
   FaMoneyBill1Wave,
   FaMoneyCheck,
@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa6";
 
 import { Link } from "react-router-dom";
-import { FaUserAlt, FaUserCheck, FaAlignJustify } from "react-icons/fa";
+import {  FaAlignJustify } from "react-icons/fa";
 
 const Sidebars = () => {
   const [collapsed, setCollapsed] = React.useState(false);
@@ -61,7 +61,7 @@ const Sidebars = () => {
           >
             HOME
           </MenuItem>
-          <SubMenu label="PROFILE" icon={<FaUserAlt />}>
+          {/* <SubMenu label="PROFILE" icon={<FaUserAlt />}>
             <MenuItem component={<Link to="/profile" />} icon={<FaUserAlt />}>
               PROFILE
             </MenuItem>
@@ -71,7 +71,7 @@ const Sidebars = () => {
             >
               PROFILE CHANGE
             </MenuItem>
-          </SubMenu>
+          </SubMenu> */}
           <SubMenu label="MY TEAM" icon={<FaUsers size={20} />}>
             <MenuItem
               component={<Link to="/mydirectteam" />}
@@ -86,7 +86,7 @@ const Sidebars = () => {
               MY LEVEL TEAM
             </MenuItem>
           </SubMenu>
-          <SubMenu label="MY BUSINESS" icon={<FaBusinessTime />}>
+          {/* <SubMenu label="MY BUSINESS" icon={<FaBusinessTime />}>
             <MenuItem
               icon={<FaBusinessTime />}
               component={<Link to="/directincome" />}
@@ -123,7 +123,7 @@ const Sidebars = () => {
             >
               FLUSHOUT INCOME
             </MenuItem>
-          </SubMenu>
+          </SubMenu> */}
 
           <SubMenu label="DEPOSIT" icon={<FaMoneyBill />}>
             <MenuItem icon={<FaMoneyBill />} component={<Link to="/deposit" />}>
