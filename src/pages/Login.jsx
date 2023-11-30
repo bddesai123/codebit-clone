@@ -48,9 +48,9 @@ const Login = () => {
         method: "eth_chainId",
       });
 
-      if (chainId !== "0x1") {
-        setError("Please switch to the Ethereum Mainnet.");
-        toast.error("Please switch to the Ethereum Mainnet.");
+      if (chainId !== "0x61") {
+        setError("Please switch to the tBNB Mainnet.");
+        toast.error("Please switch to the tBNB Mainnet.");
         return null;
       }
 
