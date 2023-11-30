@@ -62,7 +62,7 @@ function App() {
               ref={referralLinkRef}
             />
             <button
-              className="p-4 bg-gradient-to-r from-yellow-600 to-pink-600 rounded-lg md:rounded-r-lg text-white transform hover:translate-y-[-5px] hover:text-black hover:shadow-lg hover:shadow-pink-900"
+              className="p-4 bg-gradient-to-r from-yellow-600 to-pink-600  md:rounded-r-lg text-white transform hover:translate-y-[-5px] hover:text-black hover:shadow-lg hover:shadow-pink-900"
               onClick={copyToClipboard}
             >
               <span className="flex"> Copy </span>
