@@ -7,7 +7,8 @@ import toast from "react-hot-toast";
 const Login = () => {
   const navigate = useNavigate();
   const { user, login } = useAuth();
-  const { walletAddress: contextWalletAddress, updateWalletAddress } = useWallet();
+  const { walletAddress: contextWalletAddress, updateWalletAddress } =
+    useWallet();
   const [error, setError] = useState("");
   const [refid, setRefid] = useState("");
   const [loading, setLoading] = useState(false);
@@ -65,7 +66,7 @@ const Login = () => {
     }
   }, [updateWalletAddress]);
 
-  const handleApiRequest = async (url, successMessage) => {
+  const handleApiRequest = async (url, successMessage, successCallback) => {
     try {
       const userAddress = await handleMetaMaskTasks();
 
@@ -85,7 +86,13 @@ const Login = () => {
           // toast(responseData[0]);
           login(userAddress);
           toast.success(successMessage);
-          navigate("/dashboard");
+          
+          // Check if the user is registering or logging in
+          if (successCallback) {
+            successCallback();
+          } else {
+            navigate("/dashboard");
+          }
         } else {
           toast.error(responseData[0]);
         }
@@ -125,7 +132,9 @@ const Login = () => {
 
   const handleRegister = () => {
     const url = `https://forline.live/api/register.php?address=${contextWalletAddress}&refid=${refid}`;
-    handleApiRequest(url, "User registered and logged in!");
+    handleApiRequest(url, "User registered and logged in!", () => {
+      navigate("/deposit");
+    });
   };
 
   return (
@@ -156,8 +165,9 @@ const Login = () => {
           </div>
 
           {registrationStatus &&
-            (registrationStatus.includes("Message:This Address Is Not Registered") &&
-            registrationStatus.includes("Status:400") ? (
+            (registrationStatus.includes(
+              "Message:This Address Is Not Registered"
+            ) && registrationStatus.includes("Status:400") ? (
               <button
                 type="button"
                 onClick={handleRegister}
