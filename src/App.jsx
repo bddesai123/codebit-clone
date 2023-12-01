@@ -15,12 +15,12 @@ import MyLevelTeam from "./pages/MyLevelTeam";
 // import NonWorkingInocme from "./pages/NonWorkingInocme";
 // import WorkingIncome from "./pages/WorkingIncome";
 // import FlushOutIncome from "./pages/FlushOutIncome";
-import Deposit from "./pages/Deposit";
-import TopUpHistory from "./pages/TopUpHistory";
-import AddFunds from "./pages/AddFunds";
-import FundHistory from "./pages/FundHistory";
-import Withdraw from "./pages/Withdraw";
-import WithdrawHistory from "./pages/WithdrawHistory";
+// import Deposit from "./pages/Deposit";
+// import TopUpHistory from "./pages/TopUpHistory";
+// import AddFunds from "./pages/AddFunds";
+// import FundHistory from "./pages/FundHistory";
+// import Withdraw from "./pages/Withdraw";
+// import WithdrawHistory from "./pages/WithdrawHistory";
 import Support from "./pages/Support";
 import AllSupport from "./pages/AllSupport";
 import Login from "./pages/Login";
@@ -56,7 +56,7 @@ function App() {
             </label>
             <input
               type="text"
-              value={`https://metabitclub.com/register?refid=${walletAddressString}`}
+              value={`https://forline.live/api/register.php?refid=${walletAddressString}`}
               className="input input-bordered w-full md:max-w-xl max-w-sm rounded-l-lg p-4 mb-2 md:mb-0"
               disabled
               ref={referralLinkRef}
@@ -74,7 +74,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route
-            path="/login"
+            path="/login/:refid?/:address?"
             element={user ? <Navigate to="/dashboard" /> : <Login />}
           />
           <Route
@@ -123,7 +123,7 @@ function App() {
             element={user ? <FlushOutIncome /> : <Navigate to="/login" />}
           /> */}
          
-          <Route
+          {/* <Route
             path="/deposit"
             element={user ? <Deposit /> : <Navigate to="/login" />}
           />
@@ -146,7 +146,7 @@ function App() {
           <Route
             path="/withdrawhistory"
             element={user ? <WithdrawHistory /> : <Navigate to="/login" />}
-          />
+          /> */}
           <Route
             path="/support"
             element={user ? <Support /> : <Navigate to="/login" />}

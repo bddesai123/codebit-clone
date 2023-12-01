@@ -3,10 +3,7 @@ import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
 import {
   FaHouse,
   FaUsers,
- 
   FaMoneyBill,
-  FaMoneyBill1Wave,
-  FaMoneyCheck,
   FaHeadset,
   FaRegCircleRight,
 } from "react-icons/fa6";
@@ -125,18 +122,78 @@ const Sidebars = () => {
             </MenuItem>
           </SubMenu> */}
 
-          <SubMenu label="DEPOSIT" icon={<FaMoneyBill />}>
-            <MenuItem icon={<FaMoneyBill />} component={<Link to="/deposit" />}>
-              DEPOSIT
+          <SubMenu label="POOL-TREE" icon={<FaMoneyBill />}>
+            <MenuItem icon={<FaMoneyBill />} component={<Link to="/#" />}>
+              TREE 1
             </MenuItem>
             <MenuItem
               icon={<FaMoneyBill />}
-              component={<Link to="/topuphistory" />}
+              component={<Link to="/#" />}
             >
-              DEPOSIT HISTORY
+              TREE 2
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 3
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 4
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 5
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 6
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 7
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 8
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 9
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 10
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 11
+            </MenuItem>
+            <MenuItem
+              icon={<FaMoneyBill />}
+              component={<Link to="/#" />}
+            >
+              TREE 12
             </MenuItem>
           </SubMenu>
-          <SubMenu label="FUNDS" icon={<FaMoneyBill1Wave />}>
+          {/* <SubMenu label="FUNDS" icon={<FaMoneyBill1Wave />}>
             <MenuItem
               icon={<FaMoneyBill1Wave />}
               component={<Link to="/addfunds" />}
@@ -165,7 +222,7 @@ const Sidebars = () => {
             >
               WITHDRAW HISTORY
             </MenuItem>
-          </SubMenu>
+          </SubMenu> */}
           <SubMenu label="SUPPORT" icon={<FaHeadset />}>
             <MenuItem
               component={<Link to="/support" />}

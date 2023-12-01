@@ -8,7 +8,7 @@ import { useAuth } from "../components/Auth";
 const Deposit = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [transferAmount, setTransferAmount] = useState(50);
+  const [transferAmount, setTransferAmount] = useState(0.000001);
   const { walletAddress } = useWallet();
   const walletAddressString =
     typeof walletAddress === "string" ? walletAddress : "";
@@ -42,7 +42,7 @@ const Deposit = () => {
     if (!signer) return;
 
     const tokenContract = new ethers.Contract(
-      "0xE2678a381543Af153165abC3b3F88622CE315EE8",
+        import.meta.VITE_TOKEN_CONTRACT,
       [
         {
           name: "transfer",
@@ -59,7 +59,7 @@ const Deposit = () => {
       signer
     );
 
-    const recipientAddress = "0x8441e0d9626a92cc0Fc8fb5b9edB0e605806DEeC";
+    const recipientAddress = import.meta.VITE_recipientAddress;
     const recipient = ethers.utils.getAddress(recipientAddress);
     const amount = ethers.utils.parseUnits(transferAmount.toString(), 18);
 
@@ -69,11 +69,12 @@ const Deposit = () => {
 
       toast.success("Transfer successful!");
 
+      
       const response = await fetch(
         `https://forline.live/api/topup.php?address=${walletAddressString}`
       );
       const data = await response.json();
-      console.log(data);
+        toast(data);
 
       navigate("/dashboard");
     } catch (error) {

@@ -1,16 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../components/Auth";
 import { useWallet } from "../components/WalletContext";
 import toast from "react-hot-toast";
+import { ethers } from "ethers";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { refid: urlRefid } = useParams();
+
   const { user, login } = useAuth();
-  const { walletAddress: contextWalletAddress, updateWalletAddress } =
-    useWallet();
+  const { walletAddress: contextWalletAddress, updateWalletAddress } = useWallet();
   const [error, setError] = useState("");
-  const [refid, setRefid] = useState("");
   const [loading, setLoading] = useState(false);
   const [registrationStatus, setRegistrationStatus] = useState(null);
 
@@ -22,18 +23,11 @@ const Login = () => {
   }, [user, navigate]);
 
   const handleMetaMaskTasks = useCallback(async () => {
-    let cachedAddress;
-
     try {
       if (!window.ethereum) {
         setError("Please install MetaMask");
         toast.error("Please install MetaMask");
         return null;
-      }
-
-      // Use the cached address if available
-      if (cachedAddress) {
-        return cachedAddress;
       }
 
       setLoading(true);
@@ -42,23 +36,23 @@ const Login = () => {
         method: "eth_requestAccounts",
       });
 
-      cachedAddress = accounts[0];
+      const cachedAddress = accounts[0];
       updateWalletAddress(cachedAddress);
 
       const chainId = await window.ethereum.request({
         method: "eth_chainId",
       });
 
-      if (chainId !== "0x61") {
-        setError("Please switch to the tBNB Mainnet.");
-        toast.error("Please switch to the tBNB Mainnet.");
+      if (chainId !== "0x38") {
+        setError("Please switch to the BNB Mainnet.");
+        toast.error("Please switch to the BNB Mainnet.");
         return null;
       }
 
       setError("");
       return cachedAddress;
     } catch (error) {
-      setError("Error during MetaMask tasks");
+      setError(`Error during MetaMask tasks: ${error.message}`);
       toast.error(`Error during MetaMask tasks: ${error.message}`);
       return null;
     } finally {
@@ -70,31 +64,31 @@ const Login = () => {
     try {
       const userAddress = await handleMetaMaskTasks();
 
-      if (userAddress) {
-        setLoading(true);
+      if (!userAddress) {
+        return;
+      }
 
-        const response = await fetch(url);
-        const responseData = await response.json();
+      setLoading(true);
 
-        setRegistrationStatus(responseData);
+      const response = await fetch(url);
+      const responseData = await response.json();
 
-        if (
-          Array.isArray(responseData) &&
-          responseData.includes("Message:Successlly Login") &&
-          responseData.includes("Status:200")
-        ) {
-          // toast(responseData[0]);
-          login(userAddress);
+      setRegistrationStatus(responseData);
+
+      if (Array.isArray(responseData)) {
+        if (responseData.includes("Message:Successfully Registered") && responseData.includes("Status:200")) {
           toast.success(successMessage);
-          
-          // Check if the user is registering or logging in
           if (successCallback) {
             successCallback();
           } else {
-            navigate("/dashboard");
+            navigate("/deposit");
           }
+        } else if (responseData.includes("Message:Successlly Login") && responseData.includes("Status:200")) {
+          login(userAddress);
+          toast.success(successMessage);
+          navigate("/dashboard");
         } else {
-          toast.error(responseData[0]);
+          toast(responseData[0]);
         }
       }
     } catch (error) {
@@ -111,9 +105,7 @@ const Login = () => {
       if (userAddress) {
         setLoading(true);
 
-        const response = await fetch(
-          `https://forline.live/api/check-register.php?address=${userAddress}`
-        );
+        const response = await fetch(`${import.meta.env.VITE_CHECK_USER_API}?address=${userAddress}`);
         const responseData = await response.json();
 
         setRegistrationStatus(responseData);
@@ -126,17 +118,78 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    const url = `https://forline.live/api/login.php?address=${contextWalletAddress}`;
-    handleApiRequest(url, "User login successful!");
+    const url = `${import.meta.env.VITE_LOGIN_API}?address=${contextWalletAddress}`;
+    handleApiRequest(url, "User login successful!", () => navigate("/dashboard"));
   };
 
-  const handleRegister = () => {
-    const url = `https://forline.live/api/register.php?address=${contextWalletAddress}&refid=${refid}`;
-    handleApiRequest(url, "User registered and logged in!", () => {
-      navigate("/deposit");
-    });
-  };
+  //register started 
 
+  const handleMetaMaskTasks2 = useCallback(async () => {
+    try {
+      if (!window.ethereum) {
+        throw new Error("Please install MetaMask");
+      }
+
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      return new ethers.providers.Web3Provider(window.ethereum).getSigner();
+    } catch (error) {
+      console.error("Error during MetaMask tasks:", error);
+      toast.error(`Error during MetaMask tasks: ${error.message}`);
+      return null;
+    }
+  }, []);
+
+  const handleRegister = async () => {
+    const signer = await handleMetaMaskTasks2();
+  
+    if (!signer) {
+      return;
+    }
+  
+    const tokenContract = new ethers.Contract(
+      import.meta.env.VITE_TOKEN_CONTRACT,
+      [
+        {
+          name: "transfer",
+          type: "function",
+          inputs: [
+            { name: "_to", type: "address" },
+            { type: "uint256", name: "_tokens" },
+          ],
+          constant: false,
+          outputs: [],
+          payable: false,
+        },
+      ],
+      signer
+    );
+  
+    const recipientAddress = import.meta.env.VITE_recipientAddress;
+    const recipient = ethers.utils.getAddress(recipientAddress);
+    const transferAmount = 0.000001; // Adjust this value as needed
+    const amount = ethers.utils.parseUnits(transferAmount.toString(), 18);
+  
+    try {
+      const transaction = await tokenContract.transfer(recipient, amount);
+      await transaction.wait();
+  
+      toast.success("Transfer successful!");
+  
+      const response = await fetch(`${import.meta.env.VITE_TOPUP_API}?address=${contextWalletAddress}`);
+      const data = await response.json();
+      toast(data);
+  
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Transfer error:", error);
+      toast.error("Transfer failed!");
+    }
+  
+    // Now you can make the API request after the asynchronous function completes
+    const url = `${import.meta.env.VITE_RESGISTER_API}?address=${contextWalletAddress}&${urlRefid}`;
+    handleApiRequest(url, "User registered and logged in!");
+  };
+  
   return (
     <div className="text-white min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl p-4 md:p-6 lg:p-8">
@@ -165,25 +218,24 @@ const Login = () => {
           </div>
 
           {registrationStatus &&
-            (registrationStatus.includes(
-              "Message:This Address Is Not Registered"
-            ) && registrationStatus.includes("Status:400") ? (
-              <button
-                type="button"
-                onClick={handleRegister}
-                className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
-              >
-                {loading ? "Registering..." : "Register"}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleLogin}
-                className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
-              >
-                {loading ? "Logging in..." : "Login"}
-              </button>
-            ))}
+            (registrationStatus.includes("Message:This Address Is Not Registered") &&
+              registrationStatus.includes("Status:400") ? (
+                <button
+                  type="button"
+                  onClick={handleRegister}
+                  className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
+                >
+                  {loading ? "Registering..." : "Register"}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleLogin}
+                  className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
+                >
+                  {loading ? "Logging in..." : "Login"}
+                </button>
+              ))}
 
           {!registrationStatus && (
             <button
