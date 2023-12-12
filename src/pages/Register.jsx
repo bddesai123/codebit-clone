@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../components/Auth";
 import { useWallet } from "../components/WalletContext";
 import toast from "react-hot-toast";
+import { ethers } from "ethers";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
+  const { ref: urlRefid } = useParams();
 
   const { user, login } = useAuth();
   const { walletAddress: contextWalletAddress, updateWalletAddress } =
@@ -20,6 +22,7 @@ const Login = () => {
       navigate("/dashboard");
     }
   }, [user, navigate]);
+
 
   const handleMetaMaskTasks = useCallback(async () => {
     try {
@@ -59,6 +62,8 @@ const Login = () => {
     }
   }, [updateWalletAddress]);
 
+
+
   const handleConnect = async () => {
     try {
       const userAddress = await handleMetaMaskTasks();
@@ -77,9 +82,10 @@ const Login = () => {
         );
         const responseData = await response.json();
 
+       
         if (responseData.message === "user exists") {
           setRegistrationStatus(responseData);
-        } else if (responseData.message === "user does not exist") {
+        } else if(responseData.message === "user does not exist"){
           setRegistrationStatus(responseData);
         }
       }
@@ -93,19 +99,23 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       setLoading(true);
-
-      const response = await fetch(`${import.meta.env.VITE_LOGIN_API}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ address: contextWalletAddress }),
-      });
-
+  
+      const response = await fetch(
+        `${import.meta.env.VITE_LOGIN_API}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({address:contextWalletAddress}),
+        }
+      );
+   
       const responseData = await response.json();
-
+      
       setRegistrationStatus(responseData);
-
+    
+  
       if (responseData.message === "Login Successfully") {
         login(contextWalletAddress);
         toast.success("User login successful!");
@@ -119,6 +129,93 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  //register started
+
+  const handleMetaMaskTasks2 = useCallback(async () => {
+    try {
+      if (!window.ethereum) {
+        throw new Error("Please install MetaMask");
+      }
+
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      return new ethers.providers.Web3Provider(window.ethereum).getSigner();
+    } catch (error) {
+      console.error("Error during MetaMask tasks:", error);
+      toast.error(`Error during MetaMask tasks: ${error.message}`);
+      return null;
+    }
+  }, []);
+
+  const handleRegister = async () => {
+    const signer = await handleMetaMaskTasks2();
+  
+    if (!signer) {
+      return;
+    }
+  
+    const tokenContract = new ethers.Contract(
+      import.meta.env.VITE_TOKEN_CONTRACT,
+      [
+        {
+          name: "transfer",
+          type: "function",
+          inputs: [
+            { name: "_to", type: "address" },
+            { type: "uint256", name: "_tokens" },
+          ],
+          constant: false,
+          outputs: [],
+          payable: false,
+        },
+      ],
+      signer
+    );
+  
+    const recipientAddress = import.meta.env.VITE_recipientAddress;
+    const recipient = ethers.utils.getAddress(recipientAddress);
+    const transferAmount = 50; // Adjust this value as needed
+    const amount = ethers.utils.parseUnits(transferAmount.toString(), 18);
+  
+    try {
+      const transaction = await tokenContract.transfer(recipient, amount, {
+        gasLimit: 100000,
+        gasPrice: ethers.utils.parseUnits("50", "gwei"),
+      });
+  
+      toast.success(`Transfer successful! tx : ${transaction.hash}`);
+  
+      const response = await fetch(
+        `${import.meta.env.VITE_RESGISTER_API}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            address: contextWalletAddress,
+            refid: urlRefid,
+            transactionhash: transaction.hash,
+          }),
+        }
+      );
+      const responseData = await response.json();
+  
+      setRegistrationStatus(responseData);
+  
+      if (registrationStatus.message === "User registered successfully") {
+        toast.success("User registered and logged in!");
+        // Now navigate to the dashboard
+        navigate("/dashboard");
+      } else {
+        toast(responseData.error);
+      }
+    } catch (error) {
+      console.error("Transfer error:", error);
+      toast.error("Transfer failed!");
+    }
+  };
+  
 
   return (
     <div className="text-white min-h-screen flex items-center justify-center">
@@ -153,7 +250,7 @@ const Login = () => {
               registrationStatus.error === "User already exists") ? (
               <button
                 type="button"
-                disabled
+                onClick={handleRegister}
                 className="bg-gradient-to-r from-yellow-600 to-pink-600 w-full text-white py-2 px-4 rounded-lg transition duration-300 hover:shadow-lg transform hover:translate-y-[-5px] hover:shadow-pink-900 focus:outline-none"
               >
                 {loading ? "Registering..." : "Register"}
@@ -185,4 +282,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
