@@ -19,7 +19,7 @@ import MyLevelTeam from "./pages/MyLevelTeam";
 // import TopUpHistory from "./pages/TopUpHistory";
 // import AddFunds from "./pages/AddFunds";
 // import FundHistory from "./pages/FundHistory";
-// import Withdraw from "./pages/Withdraw";
+import Withdraw from "./pages/Withdraw";
 // import WithdrawHistory from "./pages/WithdrawHistory";
 import Support from "./pages/Support";
 import AllSupport from "./pages/AllSupport";
@@ -27,55 +27,55 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import copy from "copy-to-clipboard";
 import { useWallet } from "./components/WalletContext";
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
 
 function App() {
   const referralLinkRef = useRef();
-  const { walletAddress } = useWallet(); 
-  const walletAddressString = typeof walletAddress === "string" ? walletAddress : "";
+  const { walletAddress } = useWallet();
+  const walletAddressString =
+    typeof walletAddress === "string" ? walletAddress : "";
 
   const copyToClipboard = () => {
     let copyText = referralLinkRef.current.value;
     let isCopy = copy(copyText);
     if (isCopy) {
-      toast.success("Text Copied" );
+      toast.success("Text Copied");
     }
   };
   const regexPattern = /\/register\/(.+)/;
   const excludeSidebarRoutes = ["/", "/home", "/login"];
   const res = window.location.pathname.match(regexPattern);
-  
+
   const { user } = useAuth();
   return (
     <div className="flex min-h-screen min-w-screen bg-gradient-to-r from-gray-900 to-slate-600">
-      {!excludeSidebarRoutes.includes(window.location.pathname) && !res && <Sidebars />}
+      {!excludeSidebarRoutes.includes(window.location.pathname) && !res && (
+        <Sidebars />
+      )}
 
       <div className="flex-grow flex flex-col">
         {!excludeSidebarRoutes.includes(window.location.pathname) && (
-          <div> 
-            {
-              !res &&(
-                <div className="text-center flex flex-col md:flex-row justify-center items-center text-black text-xl p-2 rounded-t-lg">
-            <label className="pr-0 md:pr-5 mb-2 md:mb-0 text-white font-semibold">
-              Referral Link:
-            </label>
-            <input
-              type="text"
-              value={`${window.location.origin}/register/${walletAddressString}`}
-              className="input input-bordered w-full md:max-w-xl max-w-sm rounded-l-lg p-4 mb-2 md:mb-0"
-              disabled
-              ref={referralLinkRef}
-            />
-            <button
-              className="p-4 bg-gradient-to-r from-yellow-600 to-pink-600  md:rounded-r-lg text-white transform hover:translate-y-[-5px] hover:text-black hover:shadow-lg hover:shadow-pink-900"
-              onClick={copyToClipboard}
-            >
-              <span className="flex"> Copy </span>
-            </button>
-          </div>
-              )
-            }
-          
+          <div>
+            {!res && (
+              <div className="text-center flex flex-col md:flex-row justify-center items-center text-black text-xl p-2 rounded-t-lg">
+                <label className="pr-0 md:pr-5 mb-2 md:mb-0 text-white font-semibold">
+                  Referral Link:
+                </label>
+                <input
+                  type="text"
+                  value={`${window.location.origin}/register/${walletAddressString}`}
+                  className="input input-bordered w-full md:max-w-xl max-w-sm rounded-l-lg p-4 mb-2 md:mb-0"
+                  disabled
+                  ref={referralLinkRef}
+                />
+                <button
+                  className="p-4 bg-gradient-to-r from-yellow-600 to-pink-600  md:rounded-r-lg text-white transform hover:translate-y-[-5px] hover:text-black hover:shadow-lg hover:shadow-pink-900"
+                  onClick={copyToClipboard}
+                >
+                  <span className="flex"> Copy </span>
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -86,12 +86,16 @@ function App() {
             path="/login/"
             element={user ? <Navigate to="/dashboard" /> : <Login />}
           />
-        
+          <Route
+            path="/register/:ref"
+            element={user ? <Navigate to="/dashboard" /> : <Register />}
+          />
+
           <Route
             path="/dashboard"
             element={user ? <DashBoard /> : <Navigate to="/login" />}
           />
-          <Route path="/register/:ref"  element={user ? <Navigate to="/dashboard" /> : <Register />} />
+
           {/* protected routes */}
           {/* <Route
             path="/profile"
@@ -133,7 +137,7 @@ function App() {
             path="/flushoutincome"
             element={user ? <FlushOutIncome /> : <Navigate to="/login" />}
           /> */}
-         
+
           {/* <Route
             path="/deposit"
             element={user ? <Deposit /> : <Navigate to="/login" />}
@@ -149,12 +153,12 @@ function App() {
           <Route
             path="/fundhistory"
             element={user ? <FundHistory /> : <Navigate to="/login" />}
-          />
+          /> */}
           <Route
             path="/withdraw"
             element={user ? <Withdraw /> : <Navigate to="/login" />}
           />
-          <Route
+          {/* <Route
             path="/withdrawhistory"
             element={user ? <WithdrawHistory /> : <Navigate to="/login" />}
           /> */}

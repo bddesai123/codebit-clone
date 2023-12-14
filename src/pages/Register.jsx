@@ -23,7 +23,6 @@ const Register = () => {
     }
   }, [user, navigate]);
 
-
   const handleMetaMaskTasks = useCallback(async () => {
     try {
       if (!window.ethereum) {
@@ -62,8 +61,6 @@ const Register = () => {
     }
   }, [updateWalletAddress]);
 
-
-
   const handleConnect = async () => {
     try {
       const userAddress = await handleMetaMaskTasks();
@@ -82,10 +79,9 @@ const Register = () => {
         );
         const responseData = await response.json();
 
-       
         if (responseData.message === "user exists") {
           setRegistrationStatus(responseData);
-        } else if(responseData.message === "user does not exist"){
+        } else if (responseData.message === "user does not exist") {
           setRegistrationStatus(responseData);
         }
       }
@@ -99,23 +95,19 @@ const Register = () => {
   const handleLogin = async () => {
     try {
       setLoading(true);
-  
-      const response = await fetch(
-        `${import.meta.env.VITE_LOGIN_API}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({address:contextWalletAddress}),
-        }
-      );
-   
+
+      const response = await fetch(`${import.meta.env.VITE_LOGIN_API}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ address: contextWalletAddress }),
+      });
+
       const responseData = await response.json();
-      
+
       setRegistrationStatus(responseData);
-    
-  
+
       if (responseData.message === "Login Successfully") {
         login(contextWalletAddress);
         toast.success("User login successful!");
@@ -149,11 +141,11 @@ const Register = () => {
 
   const handleRegister = async () => {
     const signer = await handleMetaMaskTasks2();
-  
+
     if (!signer) {
       return;
     }
-  
+
     const tokenContract = new ethers.Contract(
       import.meta.env.VITE_TOKEN_CONTRACT,
       [
@@ -171,38 +163,35 @@ const Register = () => {
       ],
       signer
     );
-  
+
     const recipientAddress = import.meta.env.VITE_recipientAddress;
     const recipient = ethers.utils.getAddress(recipientAddress);
     const transferAmount = 50; // Adjust this value as needed
     const amount = ethers.utils.parseUnits(transferAmount.toString(), 18);
-  
+
     try {
       const transaction = await tokenContract.transfer(recipient, amount, {
         gasLimit: 100000,
         gasPrice: ethers.utils.parseUnits("50", "gwei"),
       });
-  
+
       toast.success(`Transfer successful! tx : ${transaction.hash}`);
-  
-      const response = await fetch(
-        `${import.meta.env.VITE_RESGISTER_API}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            address: contextWalletAddress,
-            refid: urlRefid,
-            transactionhash: transaction.hash,
-          }),
-        }
-      );
+
+      const response = await fetch(`${import.meta.env.VITE_RESGISTER_API}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          address: contextWalletAddress,
+          refid: urlRefid,
+          transactionhash: transaction.hash,
+        }),
+      });
       const responseData = await response.json();
-  
+
       setRegistrationStatus(responseData);
-  
+
       if (registrationStatus.message === "User registered successfully") {
         toast.success("User registered and logged in!");
         // Now navigate to the dashboard
@@ -215,7 +204,6 @@ const Register = () => {
       toast.error("Transfer failed!");
     }
   };
-  
 
   return (
     <div className="text-white min-h-screen flex items-center justify-center">

@@ -6,15 +6,16 @@ import {
   FaMoneyBill,
   FaHeadset,
   FaRegCircleRight,
+  FaMoneyCheck,
 } from "react-icons/fa6";
-
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {  FaAlignJustify } from "react-icons/fa";
 
 const Sidebars = () => {
   const [collapsed, setCollapsed] = React.useState(false);
   const [active, setActive] = React.useState(false);
-
+  const navigate = useNavigate();
   const handleCollapse = () => {
     setCollapsed(!collapsed);
   };
@@ -24,10 +25,13 @@ const Sidebars = () => {
     setActive(!active);
   };
 
-  const logout = async () => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  };
+const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  navigate("/");
+  window.location.reload();
+
+}
 
   return (
     <div className="flex min-h-screen  bg-black">
@@ -193,7 +197,7 @@ const Sidebars = () => {
               TREE 12
             </MenuItem>
           </SubMenu>
-          {/* <SubMenu label="FUNDS" icon={<FaMoneyBill1Wave />}>
+           {/* <SubMenu label="FUNDS" icon={<FaMoneyBill1Wave />}>
             <MenuItem
               icon={<FaMoneyBill1Wave />}
               component={<Link to="/addfunds" />}
@@ -206,7 +210,7 @@ const Sidebars = () => {
             >
               FUND HISTORY
             </MenuItem>
-          </SubMenu>
+          </SubMenu> */}
           <SubMenu label="WITHDRAW" icon={<FaMoneyCheck />}>
             <MenuItem
               icon={<FaMoneyCheck />}
@@ -222,7 +226,7 @@ const Sidebars = () => {
             >
               WITHDRAW HISTORY
             </MenuItem>
-          </SubMenu> */}
+          </SubMenu> 
           <SubMenu label="SUPPORT" icon={<FaHeadset />}>
             <MenuItem
               component={<Link to="/support" />}
@@ -239,7 +243,7 @@ const Sidebars = () => {
               ALL SUPPORT
             </MenuItem>
           </SubMenu>
-          <MenuItem onClick={logout} icon={<FaRegCircleRight />}>
+          <MenuItem onClick={handleLogout} icon={<FaRegCircleRight />}>
             LOGOUT
           </MenuItem>
         </Menu>

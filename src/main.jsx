@@ -11,8 +11,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
       <WalletProvider>
+        
         <App />
         <Toaster toastOptions={{className:" bg-blue-500 p-6 text-white overflow-hidden"}}/>
+       
       </WalletProvider>
     </AuthProvider>
   </BrowserRouter>
