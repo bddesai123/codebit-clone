@@ -12,7 +12,7 @@ const MyLevelTeam = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://forline.live/api/direct_team.php?levelteam=${walletAddressString}`
+          `${walletAddressString}`
         );
         const data = await response.json();
 

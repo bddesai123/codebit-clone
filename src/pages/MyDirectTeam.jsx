@@ -10,7 +10,7 @@ const MyDirectTeam = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://forline.live/api/direct_team.php?direct=${walletAddressString}`
+          `${walletAddressString}`
         );
         const data = await response.json();
 

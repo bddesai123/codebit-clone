@@ -14,25 +14,25 @@ const DashBoard = () => {
     {
       title: "Total Staked",
       desc: "",
-      apiEndpoint: `https://forline.live/api/direct_team.php?total=${walletAddressString}`,
+      apiEndpoint: `${walletAddressString}`,
       dataKey: "totalincome",
     },
     {
       title: "Pool Income",
       desc: "",
-      apiEndpoint: `https://forline.live/api/direct_team.php?poolincome=${walletAddressString}`,
+      apiEndpoint: `${walletAddressString}`,
       dataKey: "poolincome",
     },
     {
       title: "Total Direct Bonus",
       desc: "",
-      apiEndpoint: `https://forline.live/api/direct_team.php?totaldir=${walletAddressString}`,
+      apiEndpoint: `${walletAddressString}`,
       dataKey: "totalteam",
     },
     {
       title: "Total Level",
       desc: "",
-      apiEndpoint: `https://forline.live/api/direct_team.php?totallevel=${walletAddressString}`,
+      apiEndpoint: `${walletAddressString}`,
       dataKey: "levelteam",
     },
   ]);

@@ -1,33 +1,59 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { useWallet } from "../components/WalletContext";
+import { toast } from "react-hot-toast";
 
 const AllSupport = () => {
-  const supportHistory = [
-    {
-      srNo: 1,
-      title: "Issue 1",
-      message: "This is a support message.",
-      reply: "Support reply goes here.",
-      date: "2023-01-01",
-      status: "Resolved",
-    },
-    {
-      srNo: 2,
-      title: "Issue 2",
-      message: "Another support message.",
-      reply: "Another support reply goes here.",
-      date: "2023-02-01",
-      status: "Open",
-    },
-    {
-      srNo: 3,
-      title: "Issue 3",
-      message: "Yet another support message.",
-      reply: "Yet another support reply goes here.",
-      date: "2023-03-01",
-      status: "In Progress",
-    },
-    // Add more data as needed
-  ];
+  // const supportHistory = [
+  //   {
+  //     srNo: 1,
+  //     title: "Issue 1",
+  //     message: "This is a support message.",
+  //     reply: "Support reply goes here.",
+  //     date: "2023-01-01",
+  //     status: "Resolved",
+  //   },
+  //   {
+  //     srNo: 2,
+  //     title: "Issue 2",
+  //     message: "Another support message.",
+  //     reply: "Another support reply goes here.",
+  //     date: "2023-02-01",
+  //     status: "Open",
+  //   },
+  //   {
+  //     srNo: 3,
+  //     title: "Issue 3",
+  //     message: "Yet another support message.",
+  //     reply: "Yet another support reply goes here.",
+  //     date: "2023-03-01",
+  //     status: "In Progress",
+  //   },
+  //   // Add more data as needed
+  // ];
+
+  const { walletAddress } = useWallet();
+  const walletAddressString =
+    typeof walletAddress === "string" ? walletAddress : "";
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${walletAddressString}`
+        );
+        const data = await response.json();
+
+        // Assuming data is an array of users
+        setUsers(data);
+      } catch (error) {
+        toast.error("Error fetching data:", error.message);
+      }
+    };
+
+    // Fetch data when the component mounts
+    fetchData();
+  }, [walletAddressString]);
 
   return (
     <div className=" p-4 md:p-8 min-h-screen min-w-screen">
@@ -49,16 +75,18 @@ const AllSupport = () => {
             </tr>
           </thead>
           <tbody>
-            {supportHistory.map((entry, index) => (
-              <tr key={index}>
-                <td className="py-2 text-center px-2 md:px-4">{entry.srNo}</td>
-                <td className="py-2 text-center px-2 md:px-4">{entry.title}</td>
-                <td className="py-2 text-center px-2 md:px-4">{entry.message}</td>
-                <td className="py-2 text-center px-2 md:px-4">{entry.reply}</td>
-                <td className="py-2 text-center px-2 md:px-4">{entry.date}</td>
-                <td className="py-2 text-center px-2 md:px-4">{entry.status}</td>
-              </tr>
-            ))}
+          {users.map((user, index) => (
+                <tr key={index}>
+                  <td className="py-2 text-center px-2 md:px-4">{user.srno}</td>
+                  <td className="py-2 text-center px-2 md:px-4">
+                    {user.userid}
+                  </td>
+                  <td className="py-2 text-center px-2 md:px-4">
+                    {user.level}
+                  </td>
+                  <td className="py-2 text-center px-2 md:px-4">{user.date}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
